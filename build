@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+cmd=podman
+if ! command -v podman &> /dev/null
+then
+    echo "podman could not be found, checking for docker"
+    cmd=docker
+    if ! command -v docker &> /dev/null
+    then
+        echo "docker could not be found" 
+        exit 1
+    fi
+fi
+
+$cmd build -t android \
+  --build-arg JAVA_VER=17 \
+  --build-arg SDK_VER=34 \
+  .
